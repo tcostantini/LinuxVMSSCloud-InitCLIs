@@ -1,8 +1,8 @@
 trigger: none
 
 jobs:
-- job: CheckInstalledCLIs
-  displayName: Check installed CLIs
+- job: CheckInstalledCLT
+  displayName: Check installed command line tools
   pool:
     name: MyVMSSAgentPool
   steps:
@@ -10,13 +10,14 @@ jobs:
       cloud-init status --wait  > /dev/null 2>&1
       [ $? -ne 0 ] && echo 'Cloud-init failed' && exit 1
       echo 'Cloud-init succeeded'
+    displayName: 'Wait for cloud-init to complete'
   - script: unzip -v
     displayName: 'Show unzip version'
   - script: zip -v
     displayName: 'Show zip version'
   - script: helm version
     displayName: 'Show helm version'
-  - script: kubectl version --short
+  - script: kubectl version --client
     displayName: 'Show kubectl version'
   - script: az --version
     displayName: 'Show Azure CLI version'
