@@ -1,0 +1,24 @@
+#cloud-config
+package_update: true
+bootcmd:
+  - curl -sSL https://baltocdn.com/helm/signing.asc | sudo apt-key add -                 # Helm repo key
+  - curl -sSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add - # Kubernetes repo key
+  - curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -     # Microsoft repo key
+apt:
+  sources:
+    helm-stable-debian.list:
+      source: "deb https://baltocdn.com/helm/stable/debian/ all main"                        # Helm repo
+    kubernetes.list:
+      source: "deb http://apt.kubernetes.io/ kubernetes-xenial main"                         # Kubernetes repo
+    azure-cli.list:
+      source: "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ focal main"  # Microsoft repo (az cli)
+    microsoft-prod.list:
+      source: "deb [arch=amd64] https://packages.microsoft.com/ubuntu/20.04/prod focal main" # Microsoft repo (powershell)
+packages:
+  - unzip
+  - zip
+  - helm
+  - kubectl
+  - azure-cli
+  - powershell
+final_message: "The system is finally up, after $UPTIME seconds"
